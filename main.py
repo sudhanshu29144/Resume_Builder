@@ -201,12 +201,7 @@ def resume_preview(
       cert_institute: str = Form(None),
       cert_year: str = Form(None),
 ):
-    #skill_list = [skill.strip() for skill in skills.split(",") if skill.strip()]
-      #skill_list = [s.strip() for s in skills.split(",") if s.strip()]
-      #skills_html = "<h3 style='margin-top:30px;'>🛠 Skills</h3><ul style='display:flex; flex-wrap:wrap; gap:16px; list-style:disc; padding-left:20px;'>"
-      #for skill in skill_list:
-           # skills_html += f"<li style='margin:0;'>{skill}</li>"
-            #skills_html += "</ul>"
+    
       skills_html = " "
       if skills or frontend or backend or database or framework :
             skills_html += f"<h3>Skills</h3>"
