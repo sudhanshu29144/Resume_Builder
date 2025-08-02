@@ -1,5 +1,6 @@
 fastapi
 uvicorn
-jinja2
-pdfkit
-weasyprint
+jinja2  # if using HTML templates
+python-multipart  # if using file uploads
+
+
