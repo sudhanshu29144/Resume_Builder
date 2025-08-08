@@ -450,7 +450,7 @@ def resume_preview(
 
 
 
-PDFSHIFT_API_KEY = "sk_3825bdc18b82a1a30318a3c2bccbf6f06578bbad"  # Get free key at https://pdfshift.io/
+PDFSHIFT_API_KEY = "your secret api key"  # Get free key at https://pdfshift.io/
 
 @app.get("/download_pdf")
 async def download_pdf():
