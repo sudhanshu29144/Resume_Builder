@@ -8,8 +8,173 @@ from fastapi.responses import FileResponse
 app = FastAPI()
 # Mount the static files directory
 app.mount("/static", StaticFiles(directory="static"), name="static")
+@app.get("/", response_class=HTMLResponse)
+def homepage():
+      html = """
+      <html>
+      <head>
+            <title>Homepage</title>
+            <style>
+                  body { 
+                        font-family: Arial, sans-serif; 
+                        margin: 0; 
+                        padding: 0; 
+                        background: #f8fafc;
+                  }
+                  header { 
+                        background: #1f2937; 
+                        color: white; 
+                        padding: 20px 40px; 
+                        display: flex; 
+                        justify-content: space-between; 
+                        align-items: center; 
+                        box-shadow: 0 2px 8px rgba(31,41,55,0.07);
+                  }
+                  .logo {
+                        font-size: 2rem;
+                        font-weight: bold;
+                        letter-spacing: 1px;
+                  }
+                  nav ul { 
+                        list-style: none; 
+                        display: flex; 
+                        gap: 28px; 
+                        margin: 0; 
+                        padding: 0; 
+                  }
+                  nav ul li a { 
+                        color: white; 
+                        text-decoration: none; 
+                        font-weight: 500; 
+                        font-size: 1.1rem;
+                        transition: color 0.2s;
+                  }
+                  nav ul li a:hover {
+                        color: #a5b4fc;
+                  }
+                  .hero { 
+                        text-align: center; 
+                        padding: 10% 20px 30% ; 
+                        background: linear-gradient(120deg, #f3f4f6 0%, #e0e7ff 100%);
+                  }
+                  .hero h1 { 
+                        font-size: 2.5rem; 
+                        margin-bottom: 16px; 
+                        color: #1f2937;
+                        font-weight: 700;
+                  }
+                  .hero p { 
+                        font-size: 1.25rem; 
+                        margin-bottom: 32px; 
+                        color: #374151;
+                  }
+                  .btn { 
+                        padding: 0.6em 2em;
+                        border: none;
+                        outline: none;
+                        color: rgb(255, 255, 255);
+                        background: #111;
+                        cursor: pointer;
+                        position: relative;
+                        z-index: 0;
+                        border-radius: 10px;
+                        user-select: none;
+                        -webkit-user-select: none;
+                        touch-action: manipulation;
+                  }
+                  .btn:before {
+                        content: "";
+                        background: linear-gradient(
+                              45deg,
+                              #ff0000,
+                              #ff7300,
+                              #fffb00,
+                              #48ff00,
+                              #00ffd5,
+                              #002bff,
+                              #7a00ff,
+                              #ff00c8,
+                              #ff0000
+                        );
+                        position: absolute;
+                        top: -2px;
+                        left: -2px;
+                        background-size: 400%;
+                        z-index: -1;
+                        filter: blur(5px);
+                        -webkit-filter: blur(5px);
+                        width: calc(100% + 4px);
+                        height: calc(100% + 4px);
+                        animation: glowing-btn 20s linear infinite;
+                        transition: opacity 0.3s ease-in-out;
+                        border-radius: 10px;
+                  }
+                  @keyframes glowing-btn {
+                        0% {
+                              background-position: 0 0;
+                        }
+                        50% {
+                              background-position: 400% 0;
+                        }
+                        100% {
+                              background-position: 0 0;
+                        }
+                  }
+                  .btn:after {
+                        z-index: -1;
+                        content: "";
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        background: #222;
+                        left: 0;
+                        top: 0;
+                        border-radius: 10px;
+                  }
+                  .footer{
+                        background:#0f172a; 
+                        color:#94a3b8; 
+                        text-align:center;
+                        padding:20px;
+                        font-family:Arial;
+                  }
+                  .arrow{
+                        text-align:center;
+                        max-height:18px;
+                        width:18px;
+                        display:inline-block;
+                        margin:20px 0;
+                        object-fit:content;
+                  }
+            </style>
+      </head>
+      <body>
+            <header>
+                  <div class="logo">Resume Builder</div>
+                  <nav>
+                        <ul>
+                              <li><a href="#">Menu</a></li>
+                              <li><a href="#">Contact Us</a></li>
+                        </ul>
+                  </nav>
+            </header>
+            <section class="hero">
+                  <h1>The Best And Easy Online Resume Builder</h1>
+                  <p>Easily create a resume for any job using our best-in-class platform.</p>
+                  <br><br><br><br>
+                  <a href="/form" class="btn">Create Resume Now</a>
+            </section>
+            <div class="footer">
+                  <footer>
+                        © 2025 ResumeBuilder. All rights reserved.
+                  </footer>
+            </div>
+      </body>
+      </html>
+      """
+      return HTMLResponse(content=html)
 
-@app.get("/" ,response_class=HTMLResponse)
+@app.get("/form" ,response_class=HTMLResponse)
 def resume_form():
       html="""
       <html>
@@ -17,71 +182,135 @@ def resume_form():
                   <title>Resume Form</title>
                   <style>
                         body {
-                              font-family: sans-serif;
-                              background-color: #E1EBEE;
-                              padding: 50px;
-                        }
-
-                        .form-container {
-                              max-width: 800px;
-                              margin: auto;
-                              background: blur;
+                        background: linear-gradient(120deg, #f3f4f6 0%, #e0e7ff 100%);
+                        font-family: 'Segoe UI', Arial, sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        min-height: 100vh;
+                  }
+                  .header {
+                        width: 100%;
+                        background: #1f2937;
+                        color: #fff;
+                        padding: 24px 0 16px 0;
+                        text-align: center;
+                        font-size: 2rem;
+                        font-weight: bold;
+                        letter-spacing: 1px;
+                        box-shadow: 0 2px 8px rgba(31,41,55,0.07);
+                  }
+                  .footer {
+                        width: 100%;
+                        background: #0f172a;
+                        color: #94a3b8;
+                        text-align: center;
+                        padding: 18px 0 10px 0;
+                        font-size: 1rem;
+                        letter-spacing: 0.5px;
+                        box-shadow: 0 -2px 8px rgba(31,41,55,0.07);
+                        margin-top: 40px;
+                  }
+                  .form-container {
+                        max-width: 600px;
+                        margin: 40px auto 80px auto;
+                        background: #fff;
+                        border-radius: 16px;
+                        box-shadow: 0 8px 32px rgba(60, 72, 88, 0.15);
+                        padding: 40px 36px 32px 36px;
+                        position: relative;
+                  }
+                  h1 {
+                        text-align: center;
+                        color: #1f2937;
+                        margin-bottom: 28px;
+                        font-size: 2.2rem;
+                        letter-spacing: 1px;
+                        font-weight: 700;
+                  }
+                  h4, h5 {
+                        color: #4f46e5;
+                        margin-bottom: 8px;
+                        margin-top: 24px;
+                        font-weight: 600;
+                  }
+                  h5 {
+                        font-size: 1.1rem;
+                        color: #6366f1;
+                        margin-top: 16px;
+                  }
+                  input[type="text"], input[type="email"], input[type="tel"], input[type="int"], textarea {
+                        width: 100%;
+                        padding: 12px 16px;
+                        margin: 6px 0 14px 0;
+                        border: 1.5px solid #a5b4fc;
+                        border-radius: 8px;
+                        font-size: 1rem;
+                        background: #f1f5f9;
+                        transition: border 0.2s, box-shadow 0.2s;
+                        box-sizing: border-box;
+                        color: #1e293b;
+                  }
+                  input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="int"]:focus, textarea:focus {
+                        border: 1.5px solid #6366f1;
+                        outline: none;
+                        background: #fff;
+                        box-shadow: 0 0 0 2px #a5b4fc33;
+                  }
+                  textarea {
+                        min-height: 60px;
+                        resize: vertical;
+                  }
+                  .button-center {
                         
-                              
-                              padding: 30px;
-                              border-radius: 10px;
-                              box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-                              
-                              }
-
-                        h1 {
-                              text-align: center;
-                              color: linear-gradient(to right, #1d3557, #457b9d);
-                              margin-bottom: 20px;
-                              }
-
-                        h4 {
-                              margin-top: 20px;
-                              font-size: 16px;
-                              color: #1d3557;
-                              }
-
-                        input, textarea {
-                              width: 100%;
-                              padding: 10px;
-                              margin-top: 6px;
-                              margin-bottom: 20px;
-                              font-size: 16px;
-                              border: none;
-                              border-bottom: 2px solid grey;
-                              background: transparent;
-                              border-radius: 4px;
-                              }
-
-                        textarea {
-                              resize: vertical;
-                              }
-
+                        margin-top: 18px;
+                  }
+                  button[type="submit"] {
+                        width: 50%;
+                        background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+                        color: #fff;
+                        border: none;
+                        border-radius: 8px;
+                        padding: 14px 0;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                        letter-spacing: 0.5px;
+                        cursor: pointer;
+                        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+                        transition: background 0.2s, transform 0.1s;
+                        text-align:center;
+                        display: block;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                  }
+                  button[type="submit"]:hover {
+                        background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%);
+                        transform: translateY(-2px) scale(1.01);
+                  }
+                  ::placeholder {
+                        color: #a5b4fc;
+                        opacity: 1;
+                  }
+                  @media (max-width: 700px) {
+                        .form-container {
+                              padding: 24px 8vw 18px 8vw;
+                        }
+                        .header, .footer {
+                              font-size: 1.2rem;
+                        }
                         button[type="submit"] {
-                              background-color: grey;
-                              color: white;
-                              padding: 12px 24px;
-                              font-size: 16px;
-                              font-weight: bold;
-                              border: none;
-                              border-radius: 6px;
-                              cursor: pointer;
-                              transition: background 0.3s ease;
-                              margin-top: 30px;
-                              display: block;
-                             
-                              width: fit-content;
-                              margin: 30px auto 0;
-
-                              }
-                        button[type="submit"]:hover {
-                              background-color: green;
-                              }
+                              width: 100%;
+                        }
+                  }
+                  .resume-box {
+                        margin-top: 0;
+                  }
+                  label {
+                        font-weight: 500;
+                        color: #374151;
+                        margin-bottom: 4px;
+                        display: block;
+                  }
             
                   </style>
             </head>
@@ -148,6 +377,9 @@ def resume_form():
                         <input name="cert_institute" type="text" placeholder="Certification Institute">
                         <input name="cert_year" type="text" placeholder="Certification Year"><br><br>
                         <button type="submit">Submit</button>
+                        </div>
+                        <div class="footer">
+                        &copy; 2025 Resume Builder. All rights reserved.
                         </div>
                   </form>
             </body>
